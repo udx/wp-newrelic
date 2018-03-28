@@ -40,7 +40,7 @@ class WP_NR_APM {
    * Header Browser Snippet
    *
    */
-	public function wp_header() {
+	public function wp_head() {
 
 	  if( extension_loaded('newrelic') ) {
 	    echo newrelic_get_browser_timing_header();
