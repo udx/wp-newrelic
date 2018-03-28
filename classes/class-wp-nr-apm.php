@@ -24,12 +24,41 @@ class WP_NR_APM {
 
 		add_action( 'pre_amp_render_post', array( $this, 'disable_nr_autorum' ), 9999, 1 );
 
+		if( WP_NR_Helper::get_setting('wp_nr_browser_snippet')  ) {
+      add_action('wp_head', array( $this, 'wp_head' ), 0 );
+      add_action('wp_footer', array( $this, 'wp_footer' ), 9999 );
+    }
+
 		if ( is_admin() ) {
 			add_action( 'admin_init', array( $this, 'set_admin_transaction' ) );
 		} else {
 			add_action( 'wp', array( $this, 'set_wp_transaction' ) );
 		}
 	}
+
+  /**
+   * Header Browser Snippet
+   *
+   */
+	public function wp_header() {
+
+	  if( extension_loaded('newrelic') ) {
+	    echo newrelic_get_browser_timing_header();
+	  }
+
+  }
+
+  /**
+   * Footer Browser Snippet
+   *
+   */
+	public function wp_footer() {
+
+	  if( extension_loaded('newrelic') ) {
+	    echo newrelic_get_browser_timing_footer();
+	  }
+
+  }
 
 	/**
 	 * Setup New Relic config
